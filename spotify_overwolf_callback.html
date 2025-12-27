@@ -1,1 +1,30 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Spotify Auth</title>
+</head>
+<body>
+<script>
+  const url = new URL(window.location.href);
+  const code = url.searchParams.get("code");
+  const state = url.searchParams.get("state");
+
+  if (window.overwolf && overwolf.windows) {
+    overwolf.windows.obtainDeclaredWindow("background", (res) => {
+      if (res.status === "success") {
+        overwolf.windows.sendMessage(
+          res.window.id,
+          "spotify-auth-code",
+          { code, state },
+          () => {}
+        );
+      }
+    });
+  }
+
+  document.body.innerText = "Spotify login complete. You may close this window.";
+</script>
+</body>
+</html>
 
